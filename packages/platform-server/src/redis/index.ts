@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import RedisImpl from '@infra-node/redis'
 import { Global, Module, FactoryProvider } from '@nestjs/common'
 import Redis from 'ioredis'
 import Redlock from 'redlock'
@@ -23,7 +24,11 @@ import { Config } from '../config'
 const RedisProvider: FactoryProvider = {
   provide: Redis,
   useFactory: (config: Config) => {
-    return new Redis(config.redis)
+    return new RedisImpl({
+      ...config.redis,
+      enableReadyCheck: false,
+      kconfEnv: config.dev ? 'staging' : 'prod',
+    })
   },
   inject: [Config],
 }
@@ -32,7 +37,7 @@ const RedlockProvider: FactoryProvider = {
   provide: Redlock,
   useFactory: (redis: Redis) => {
     // see https://github.com/mike-marcacci/node-redlock
-    // @ts-expect-error valid
+    // @ts-expect-error
     return new Redlock([redis])
   },
   inject: [Redis],
@@ -46,4 +51,5 @@ const RedlockProvider: FactoryProvider = {
 export class RedisModule {}
 
 export { Redis }
+
 export { Redlock }

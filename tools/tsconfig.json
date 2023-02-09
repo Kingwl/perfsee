@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "ES2020",
-    "target": "ES2020",
+    "target": "ES6",
     "noEmit": true,
     "esModuleInterop": true,
     "allowJs": true,

@@ -118,6 +118,14 @@ perfsee.auth.oauthProviders = {
       response_type: 'user',
     },
   },
+  kwai: {
+    clientId: env.KWAI_OAUTH_CLIENT_ID!,
+    clientSecret: env.KWAI_OAUTH_CLIENT_SECRET!,
+    args: {
+      scope: ['profile'],
+      response_type: 'code',
+    },
+  },
 }
 
 // # config the default admin user login credential

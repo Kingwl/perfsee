@@ -18,11 +18,11 @@ import { ExecutionContext, ArgumentsHost } from '@nestjs/common'
 import { GqlArgumentsHost, GqlContextType, GqlExecutionContext } from '@nestjs/graphql'
 import { Request, Response } from 'express'
 
-export function getRequestFromContext(context: ExecutionContext) {
+export function getRequestFromContext(context: ExecutionContext): any {
   return getRequestResponseFromContext(context).req
 }
 
-export function getRequestResponseFromContext(context: ExecutionContext) {
+export function getRequestResponseFromContext(context: ExecutionContext): any {
   switch (context.getType<GqlContextType>()) {
     case 'graphql':
       const gqlContext = GqlExecutionContext.create(context).getContext<{ req: Request }>()

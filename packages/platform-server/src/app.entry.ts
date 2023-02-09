@@ -74,6 +74,8 @@ export async function createApp() {
   app.useGlobalGuards(new PreAuthGuard(app.get(AuthService)))
 
   async function start() {
+    // eslint-disable-next-line no-console
+    console.log(config.port)
     await app.listen(config.port)
 
     process.once('SIGUSR2', () => {

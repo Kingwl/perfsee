@@ -42,6 +42,13 @@ export class HealthController {
     private readonly metrics: Metric,
   ) {}
 
+  @Get('/simple')
+  @HealthCheck()
+  async checkSimple() {
+    const result = await this.check()
+    return result.status
+  }
+
   @Get()
   @HealthCheck()
   async check(): Promise<HealthCheckResult> {

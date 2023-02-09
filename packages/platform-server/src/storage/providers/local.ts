@@ -26,11 +26,7 @@ import { BaseObjectStorage } from './provider'
 const debug = debugFactory('perfsee:local-obj-storage')
 
 export class ObjectStorage extends BaseObjectStorage {
-  basePath: string
-  constructor(dirname = '.local-object-storage') {
-    super()
-    this.basePath = join(process.cwd(), dirname)
-  }
+  readonly basePath = '/root/perfsee-storage/perfsee/storage'
 
   async get(name: string): Promise<Buffer> {
     debug(`getting ${name} from local object storage...`)

@@ -35,7 +35,7 @@ export const getDefaultPerfseeConfig: () => PerfseeConfig = () => ({
   },
   https: false,
   host: 'localhost',
-  port: 3000,
+  port: process.env.PORT ? Number(process.env.PORT) : 3000,
   path: '',
   get origin() {
     return this.dev
@@ -60,10 +60,8 @@ export const getDefaultPerfseeConfig: () => PerfseeConfig = () => ({
     database: 'perfsee',
   },
   redis: {
-    host: '127.0.0.1',
-    port: 6379,
-    password: void 0,
-    db: 0,
+    clusterName: 'ugPerfseePlatform',
+    enableReadyCheck: false,
   },
   auth: {
     enableSignup: true,
@@ -71,7 +69,7 @@ export const getDefaultPerfseeConfig: () => PerfseeConfig = () => ({
     oauthProviders: {},
     admin: {
       email: 'admin@perfsee.com',
-      password: 'admin',
+      password: 'perfseeAdmin123',
     },
   },
   objectStorage: {

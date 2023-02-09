@@ -16,4 +16,5 @@ limitations under the License.
 
 export enum ExternalAccount {
   github = 'github',
+  kwai = 'kwai',
 }

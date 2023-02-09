@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import express, { type Express } from 'express'
+
 import { logger } from '@perfsee/job-runner-shared'
 import { JobInfo } from '@perfsee/server-common'
 import { JobLogLevel } from '@perfsee/shared'
@@ -25,6 +27,7 @@ import { JobWorkerExecutor } from './worker'
 
 export class Runner {
   private readonly client: PlatformClient
+  private readonly server: Express
   private readonly runningJobs = new Map</* jobId */ number, JobWorkerExecutor>()
   private pulling = false
 
@@ -37,6 +40,11 @@ export class Runner {
 
   constructor(private readonly configManager: ConfigManager) {
     this.client = new PlatformClient(this.configManager.load())
+
+    this.server = express()
+    this.server.get('/health/simple', (_, res) => {
+      res.send('ok')
+    })
   }
 
   start() {
@@ -52,6 +60,11 @@ export class Runner {
           })
       }
     }, this.config.runner.checkInterval * 1000)
+
+    const port = process.env.AUTO_PORT0 ?? 3333
+    this.server.listen(Number(port), () => {
+      logger.info(`listening at ${port}`)
+    })
   }
 
   private async pullAndExecute() {
@@ -82,16 +95,10 @@ export class Runner {
       }
     } catch (e) {
       this.failedJob(job, `Failed to install runner script [event=${job.jobType}, id=${job.jobId}]`, e)
-      return
     }
 
     if (!runnerScriptEntry) {
-      if (process.env.NODE_ENV === 'development') {
-        runnerScriptEntry = localRunnerScriptEntry(job.jobType)
-      } else {
-        this.failedJob(job, `Runner script not found for ${job.jobType}`)
-        return
-      }
+      runnerScriptEntry = localRunnerScriptEntry(job.jobType)
     }
 
     this.executeJob(job, runnerScriptEntry)

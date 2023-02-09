@@ -139,7 +139,6 @@ test.skip('should fail if not signed in', async (t) => {
 
 test('should fast pass if user is admin', async (t) => {
   const { gqlClient, guard, provider } = t.context
-  // @ts-expect-error - not all user fields are used
   Sinon.stub(guard, 'getUserFromContext').returns({ isAdmin: true })
 
   const res = await gqlClient.query({
@@ -157,7 +156,6 @@ test('should fast pass if user is admin', async (t) => {
 
 test('should pass query if permission.check resolves true', async (t) => {
   const { gqlClient, guard, provider } = t.context
-  // @ts-expect-error - not all user fields are used
   Sinon.stub(guard, 'getUserFromContext').returns({ isAdmin: false })
   provider.check.resolves(true)
 
@@ -177,7 +175,6 @@ test('should pass query if permission.check resolves true', async (t) => {
 test('should fail query if permission.check resolves false', async (t) => {
   const { gqlClient, guard, provider } = t.context
 
-  // @ts-expect-error - not all user fields are used
   Sinon.stub(guard, 'getUserFromContext').returns({ isAdmin: false })
   provider.check.resolves(false)
 
@@ -197,7 +194,6 @@ test('should fail query if permission.check resolves false', async (t) => {
 
 test('should fail controller if permission.check resolves false', async (t) => {
   const { app, guard, provider } = t.context
-  // @ts-expect-error - not all user fields are used
   Sinon.stub(guard, 'getUserFromContext').returns({ isAdmin: false })
   provider.check.resolves(false)
 

@@ -21,12 +21,14 @@ import { Config } from '@perfsee/platform-server/config'
 import { ExternalAccount } from '@perfsee/shared'
 
 import { GithubOAuthProvider } from './github'
+import { KwaiOAuthProvider } from './kwai'
 import { OAuthProvider } from './provider'
 
 export * from './provider'
 
 export const PROVIDERS: Record<ExternalAccount, new (...args: any[]) => OAuthProvider> = {
   github: GithubOAuthProvider,
+  kwai: KwaiOAuthProvider,
 }
 
 @Injectable()

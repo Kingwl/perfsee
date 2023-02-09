@@ -544,6 +544,7 @@ type ApplicationSettings {
 
 enum ExternalAccount {
   github
+  kwai
 }
 
 type HeaderType {

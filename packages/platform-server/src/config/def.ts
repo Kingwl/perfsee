@@ -1,5 +1,4 @@
 import { ApolloDriverConfig } from '@nestjs/apollo'
-import { RedisOptions } from 'ioredis'
 import { DataSourceOptions } from 'typeorm'
 
 import { ExternalAccount } from '@perfsee/shared'
@@ -40,6 +39,13 @@ export function parseEnvValue(value: string | undefined, type?: EnvConfigType) {
   }
 
   return type === 'int' ? int(value) : type === 'float' ? float(value) : type === 'boolean' ? boolean(value) : value
+}
+
+interface KwaiRedisOptions {
+  clusterName: string
+  kconfEnv?: 'prod' | 'test' | 'staging'
+  serviceName?: string
+  enableReadyCheck?: boolean
 }
 
 /**
@@ -141,12 +147,9 @@ export interface PerfseeConfig {
   /**
    * the redis connection options
    *
-   * @env REDIS_HOST
-   * @env REDIS_PORT
-   * @env REDIS_PASSWORD
-   * @env REDIS_DB
+   * @env REDIS_CLUSTER_NAME
    */
-  redis: RedisOptions
+  redis: KwaiRedisOptions
   /**
    * object storage Config
    *
