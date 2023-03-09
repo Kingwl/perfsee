@@ -104,7 +104,8 @@
   },
   "resolutions": {
     "jpeg-js": "0.4.4",
-    "qs@6.2.3": "6.2.4"
+    "qs@6.2.3": "6.2.4",
+    "@infra-node/kess": "1.4.12"
   },
   "lint-staged": {
     "*.@(js|ts|tsx)": [
